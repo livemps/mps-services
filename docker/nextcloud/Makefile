@@ -1,5 +1,5 @@
 # Makefile Setup
-.PHONY: default all build up down restart exec purge
+.PHONY: default all build up down restart logs exec purge
 default:all
 all: build up
 
@@ -18,6 +18,8 @@ down:
 	docker-compose down
 restart: build
 	docker-compose restart
+logs:
+	docker logs $(CONTAINER_NAME)
 exec:
 	docker exec -it $(CONTAINER_NAME) bash
 purge: down
