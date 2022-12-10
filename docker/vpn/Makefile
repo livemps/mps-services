@@ -6,7 +6,7 @@ CFG_FILE = $(CERT_FOLDER)/srv/$(OPENVPN_DOMAIN)_bridged.conf
 #RSA_SIZE=1024
 
 default:all
-.PHONY: prepare build-conf build-container up down restart exec
+.PHONY: prepare build-conf build-container up down restart logs exec
 
 all: build up
 
@@ -33,6 +33,8 @@ down:
 restart: build
 	docker-compose restart
 
+logs:
+	docker logs $(CONTAINER_NAME)
 exec:
 	docker exec -ti $(CONTAINER_NAME) bash
 
