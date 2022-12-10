@@ -12,16 +12,15 @@ all: build up
 
 prepare:
 	mkdir -p $(DATA_FOLDER)/certs
-	sudo chown root:docker -R $(DATA_FOLDER)
-	sudo chmod a+rw -R $(DATA_FOLDER)
 	sudo apt install uml-utilities openvpn
 	
-$(CFG_FILE): prepare 
+$(CFG_FILE):
 	./create_certs_vpn.bash -o $(DATA_FOLDER)/certs -R $(CONTAINER_IP) \
 		-r $(RSA_SIZE) -a 256 -d 3650 -s $(OPENVPN_DOMAIN) -y -S -C -p -t all \
 		-u $(USER_LIST)
+	sudo chown odem:docker -R $(DATA_FOLDER)
 
-build: $(CFG_FILE)
+build: $(CFG_FILE) prepare
 	docker-compose build
 
 up: build
