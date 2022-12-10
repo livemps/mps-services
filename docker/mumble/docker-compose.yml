@@ -1,0 +1,26 @@
+
+version: '2'
+
+services:
+  mumble:
+    image: mumblevoip/mumble-server:latest
+    container_name: $CONTAINER_NAME
+    hostname: mumble.$MUMBLE_DOMAIN
+    restart: on-failure
+    security_opt:
+      - no-new-privileges:true
+    ports:
+      - $CONTAINER_IP:64738:64738
+      - $CONTAINER_IP:64738:64738/udp
+    environment:
+      - MUMBLE_CONFIG_welcometext="°-°"
+      - MUMBLE_CONFIG_sslCert="/data/fullchain1.pem"
+      - MUMBLE_CONFIG_sslKey="/data/privkey1.pem"
+      - MUMBLE_CONFIG_welcometext="Nid dumm babble!"
+      - MUMBLE_CONFIG_users=20
+        #      - MUMBLE_SUPERUSER_PASSWORD=jmsLA73$KlncQ
+    volumes:
+      - $DATA_FOLDER/mumble_server_config.ini:/data/mumble_server_config.ini
+      - /etc/swag/etc/letsencrypt/archive/$MUMBLE_DOMAIN:/data
+
+
