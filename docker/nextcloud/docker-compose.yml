@@ -1,7 +1,7 @@
 version: '2'
 services:
   mps-nextcloud:
-    image: thebasimg/mps-nextcloud
+    image: livemps/mps-nextcloud
     container_name: $CONTAINER_NAME
     restart: always
     hostname: 'nextcloud.$NEXTCLOUD_DOMAIN'
