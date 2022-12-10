@@ -1,0 +1,31 @@
+version: '2'
+services:
+  gitlab:
+    image: 'gitlab/gitlab-ce:latest'
+    container_name: $CONTAINER_NAME
+    restart: always
+    hostname: 'gitlab.$GITLAB_DOMAIN'
+    environment:
+      GITLAB_DOMAIN: $GITLAB_DOMAIN
+      GITLAB_SKIP_UNMIGRATED_DATA_CHECK: "true"
+      GITLAB_OMNIBUS_CONFIG: |
+        registry_external_url "https://registry.$GITLAB_DOMAIN"
+        mattermost_external_url "https://mattermost.$GITLAB_DOMAIN"
+        external_url 'https://gitlab.$GITLAB_DOMAIN:13443'
+        gitlab_rails['gitlab_shell_ssh_port'] = 13022
+        letsencrypt['enable'] = false
+        nginx['ssl_certificate'] = "/etc/gitlab/ssl/gitlab.crt"
+        nginx['ssl_certificate_key'] = "/etc/gitlab/ssl/gitlab.key"
+    ports:
+      - '$CONTAINER_IP:13443:13443'
+      - '$CONTAINER_IP:13022:22'
+    volumes:
+      - '$CERT_FOLDER/$GITLAB_DOMAIN/fullchain1.pem:/etc/gitlab/ssl/gitlab.crt:ro'
+      - '$CERT_FOLDER/$GITLAB_DOMAIN/privkey1.pem:/etc/gitlab/ssl/gitlab.key:ro'
+      - '$CERT_FOLDER/$GITLAB_DOMAIN/fullchain1.pem:/etc/gitlab/ssl/registry.$GITLAB_DOMAIN.crt:ro'
+      - '$CERT_FOLDER/$GITLAB_DOMAIN/privkey1.pem:/etc/gitlab/ssl/registry.$GITLAB_DOMAIN.key:ro'
+      - '$CERT_FOLDER/$GITLAB_DOMAIN/fullchain1.pem:/etc/gitlab/ssl/mattermost.$GITLAB_DOMAIN.crt:ro'
+      - '$CERT_FOLDER/$GITLAB_DOMAIN/privkey1.pem:/etc/gitlab/ssl/mattermost.$GITLAB_DOMAIN.key:ro'
+      - '$GITLAB_HOME/config:/etc/gitlab'
+      - '$GITLAB_HOME/logs:/var/log/gitlab'
+      - '$GITLAB_HOME/data:/var/opt/gitlab'
