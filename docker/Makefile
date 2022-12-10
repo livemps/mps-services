@@ -4,7 +4,7 @@ default:all
 all: build up
 
 # Makefile config
-TARGETS := swag vpn portainer nextcloud mailu gitlab
+TARGETS := swag vpn mumble portainer nextcloud mailu gitlab
 
 define dojobs
   for t in $(TARGETS) ; do  make -C $$t/ $(1) ; done 
