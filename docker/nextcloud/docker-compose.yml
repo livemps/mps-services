@@ -1,0 +1,15 @@
+version: '2'
+services:
+  mps-nextcloud:
+    image: thebasimg/mps-nextcloud
+    container_name: $CONTAINER_NAME
+    restart: always
+    hostname: 'nextcloud.$NEXTCLOUD_DOMAIN'
+    ports:
+      - '$CONTAINER_IP:11443:443'
+    volumes:
+      - '$DATA_FOLDER/nextcloud:/var/www/html'
+      - '$DATA_FOLDER/apps:/var/www/html/custom_apps'
+      - '$DATA_FOLDER/config:/var/www/html/config'
+      - '$DATA_FOLDER/data:/var/www/html/data'
+      - '/etc/swag/etc/letsencrypt/archive/$NEXTCLOUD_DOMAIN:/certs:ro'
