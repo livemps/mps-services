@@ -26,6 +26,6 @@ services:
     volumes:
       - $DATA_FOLDER:/config
     ports:
-      - 443:443
-      - 80:80 
+      - $CONTAINER_IP:443:443
+      - $CONTAINER_IP:80:80 
     restart: unless-stopped
