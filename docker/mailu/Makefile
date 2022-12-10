@@ -18,6 +18,8 @@ down:
 	docker-compose down
 restart: build
 	docker-compose restart
+ilogs:
+	docker logs $(CONTAINER_NAME)
 exec:
 	docker exec -it $(CONTAINER_NAME) bash
 account:
