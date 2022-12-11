@@ -26,3 +26,12 @@ account:
 	docker-compose -p mailu exec admin flask mailu admin postmaster $(DOMAIN) PASSWORD
 purge: down
 	sudo rm -rf $(DATA_FOLDER)/*
+CHECK_HOSTS_UP = $(eval HOSTS_UP=$(shell docker-compose ps | grep -v "\-\-\-\-\-" | grep -v "Command" | grep -o "Up" | wc -l))
+CHECK_HOSTS_DOWN = $(eval HOSTS_DOWN=$(shell docker-compose ps | grep -v "\-\-\-\-\-" | grep -v "Command" | grep -o "Down" | wc -l))
+check:
+	$(CHECK_HOSTS_UP)
+	$(CHECK_HOSTS_DOWN)
+	@echo "$(CONTAINER_NAME) => Up: $(HOSTS_UP) Down: $(HOSTS_DOWN)"
+ps:
+	@echo "### $(CONTAINER_NAME) #####"
+	@docker-compose ps | grep -v "\-\-\-\-\-" | grep -v "Command"

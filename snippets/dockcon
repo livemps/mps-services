@@ -1,0 +1,6 @@
+#!/bin/bash
+
+SRVPATH=~/repo/github.com/mps/mps-services/docker
+make -C $SRVPATH/ $2
+
+

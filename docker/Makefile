@@ -1,5 +1,7 @@
+
 # Makefile Setup
-.PHONY: default all build up down restart exec purge
+MAKEFLAGS += --no-print-directory
+.PHONY: default all build up down restart exec check ps purge
 default:all
 all: build up
 
@@ -7,7 +9,7 @@ all: build up
 TARGETS := swag vpn mumble portainer nextcloud mailu gitlab
 
 define dojobs
-  for t in $(TARGETS) ; do  make -C $$t/ $(1) ; done 
+  @for t in $(TARGETS) ; do  make -C $$t/ $(1) ; echo "" ; done 
 endef
 
 # Compose targets
@@ -22,6 +24,10 @@ restart:
 logs:
 	$(call dojobs,$@)
 exec:
+	$(call dojobs,$@)
+check:
+	$(call dojobs,$@)
+ps:
 	$(call dojobs,$@)
 purge:
 	$(call dojobs,$@)
